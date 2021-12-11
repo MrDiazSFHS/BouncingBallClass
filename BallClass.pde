@@ -20,7 +20,7 @@ public void draw()
   b1.drawBall();
   b1.checkEdges();
   
-  char a = (char)(0x30A0);
+  char a = (char)(0x30A0+2);
   textSize(50);
   text(a, 200, 200);
   
