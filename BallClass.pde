@@ -1,93 +1,124 @@
-// Global Variables
-  Ball b1;
-  Ball b2;
+//import java.util.ArrayList;
 
-// setup method
+Ball ball1;
+Bar bar1;
+
+
 public void setup()
 {
-  size(800, 800);
-  background(120);
-  b1 = new Ball();
-  b2 = new Ball();
+  //size(1600, 1600);
+  fullScreen();
+  background(255);
+  fill(120);
+  ball1 = new Ball();
+  bar1 = new Bar();
 }
 
-
-// draw method
 public void draw()
 {
-  background(120);
-  b1.update();
-  b1.drawBall();
-  b1.checkEdges();
+  background(255);
+  ball1.drawBall();
+  ball1.updateBall();
+  bar1.drawBar();
+  bar1.updateBar();
   
-
-  textSize(50);
-  text("Diaz", 200, 200);
-  
-  b2.update();
-  b2.drawBall();
-  b2.checkEdges();
-}
-
-
-public class Ball
-{
-  // Instance Variables
-  private int x;
-  private int y;
-  
-  private int xD;
-  private int yD;
-  
-  private int diameter;
-  
-  // Assume size(800, 800);
-  // Constructors
-  public Ball()
+  if(                         ball1.x > (width - ball1.radius - bar1.w/2) 
+        && Math.abs(ball1.y - bar1.y) < bar1.h/2    )
   {
-    x = (int)(Math.random()*800);
-    y = (int)(Math.random()*800);
-    xD = 5;
-    yD = 5;
-    diameter = (int)(Math.random()*50 + 10); 
+    ball1.xD *= -1;
+    bar1.c1 = color( (int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255)); 
   }
   
-  // Constructor that will in speed (xD & yD) and diameter
+  if(ball1.x > width + 10)
+    ball1.x = 100;
   
-   
-  // methods
-  public void update()
+  
+}
+
+class Ball{
+
+  int x;
+  int y;
+  int xD;
+  int yD;
+  int radius;
+    
+  public Ball(){
+    radius = 20;
+    x = (int)(Math.random()*(width-radius*4) + radius*2);
+    y = (int)(Math.random()*(height-radius*4)+ radius*2);
+    xD = 10;
+    yD = 10;
+  }
+  
+  public Ball(int x, int y, int speed, int radius)
   {
+    this.x = x;
+    this.y = y;
+    this.xD = speed;
+    this.yD = speed;
+    this.radius = radius;
+  }
+  
+  public void drawBall(){
+    ellipse(x, y, radius*2, radius*2);    
+  }
+  
+  
+  public void updateBall(){
+    if(x < 0 + radius)
+      xD *= -1;      
+    if(y < 0 + radius || y > height - radius){
+      yD *= -1;
+    }
     x += xD;
     y += yD;
   }
   
-  public void drawBall()
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+}
+
+class Bar
+{
+
+  int x;
+  int y;
+  int w;
+  int h;
+  color c1;
+
+  public Bar()
   {
-    ellipse(x, y, diameter, diameter);
+    this.w = 40;
+    this.h = 200;
+    this.x = width - w/2;
+    this.y = height/2;
+    c1 = color(120, 50, 255);
   }
+  
 
-  public void checkEdges()
+  
+  public void drawBar()
   {
-    if(x < 0 || x > width)
-      xD *= -1;
-    if(y < 0 || y > height)
-      yD *= -1;      
+    rectMode(CENTER);
+    fill(c1);
+    rect(x, y, w, h);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
+  public void updateBar()
+  {
+    y = mouseY;
+  }
 
 
 }
